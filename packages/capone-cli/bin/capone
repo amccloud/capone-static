@@ -1,0 +1,14 @@
+#!/usr/bin/env node
+
+var app = require('../lib').default;
+
+app.listen(
+  process.argv.slice(2),
+  process.stdout,
+  (error) => {
+    if (error) {
+      console.error(error.stack);
+      process.exit(1);
+    }
+  }
+);

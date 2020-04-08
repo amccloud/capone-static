@@ -1,0 +1,22 @@
+FROM node:4.4.3
+
+RUN \
+  useradd --user-group --create-home --shell /bin/false app && \
+  npm install --global npm@3.8.8
+
+WORKDIR /home/app/capone
+
+COPY package.json npm-shrinkwrap.json ./
+RUN chown -R app:app ./
+
+RUN \
+  npm install && \
+  npm cache clean
+
+COPY ./ ./
+RUN chown -R app:app ./
+
+USER app
+EXPOSE 3000
+
+CMD ["npm", "start"]
