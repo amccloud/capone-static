@@ -1,0 +1,30 @@
+#!/bin/bash
+
+set -e
+
+if [ -d /usr/local/openresty/luajit/etc/luarocks ]; then
+  exit 0
+fi
+
+sudo apt-get -y update
+sudo apt-get -y install \
+  build-essential \
+  wget \
+  unzip
+
+# Download luarocks
+cd /usr/local
+wget http://luarocks.org/releases/luarocks-2.2.2.tar.gz
+tar -xzvf luarocks-2.2.2.tar.gz
+rm luarocks-2.2.2.tar.gz
+
+cd luarocks-2.2.2/
+./configure \
+  --prefix=/usr/local/openresty/luajit \
+  --with-lua=/usr/local/openresty/luajit \
+  --with-lua-include=/usr/local/openresty/luajit/include/luajit-2.1 \
+  --lua-suffix=jit-2.1.0-beta1
+
+make build
+sudo make install
+rm -rf /usr/local/luarocks-2.2.2*

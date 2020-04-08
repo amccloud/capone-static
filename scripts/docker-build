@@ -1,0 +1,8 @@
+#!/bin/bash
+
+set -e
+
+REGISTRY=779245674526.dkr.ecr.us-east-1.amazonaws.com
+
+docker build --tag $REGISTRY/capone/api --file=docker/api.dock .
+docker build --tag $REGISTRY/capone/router --file=docker/router.dock .

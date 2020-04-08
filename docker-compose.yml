@@ -1,0 +1,40 @@
+version: '2'
+services:
+  capone-db:
+    image: postgres:9.5.2
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_DB: capone_development
+  capone-api:
+    command: npm run start:dev-server
+    build:
+      context: ./
+      dockerfile: docker/api.dock
+    volumes:
+      - .:/home/app/capone
+      - /home/app/capone/node_modules
+    links:
+      - capone-db
+    environment:
+      NODE_ENV: development
+      CAPONE_HOSTNAME: caponeapp.dev
+      DATABASE_URL: postgres://root@capone-db/capone_development
+      B2_ACCOUNT_ID: B2_ACCOUNT_ID
+      B2_APPLICATION_KEY: B2_APPLICATION_KEY
+      B2_BUCKET_ID: B2_BUCKET_ID
+      FASTLY_API_KEY: FASTLY_API_KEY
+      FASTLY_SERVICE_ID: FASTLY_SERVICE_ID
+    ports:
+      - 3000:3000
+  capone-router:
+    build:
+      context: ./
+      dockerfile: docker/router.dock
+    links:
+      - capone-db
+      - capone-api:capone-api-1
+      - capone-api:capone-api-2
+    ports:
+      - 80:80
+    environment:
+      DATABASE_URL: postgres://postgres@capone-db/capone_development

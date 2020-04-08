@@ -1,0 +1,17 @@
+#!/bin/bash
+
+set -e
+
+NODE_ENV='test' \
+CAPONE_HOSTNAME='caponeapp.dev' \
+DATABASE_URL='postgres://localhost/capone_test' \
+B2_ACCOUNT_ID='mockb2accountid' \
+B2_APPLICATION_KEY='mockb2applicationkey' \
+B2_BUCKET_ID='mockb2bucketid' \
+FASTLY_API_KEY='mockfastlyapikey' \
+FASTLY_SERVICE_ID='mockfastlyserviceid' \
+./node_modules/mocha/bin/mocha \
+  --watch \
+  --compilers js:babel-register \
+  ./test/**/*-test.js \
+  ./test/index.js

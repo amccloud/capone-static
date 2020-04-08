@@ -1,0 +1,24 @@
+FROM ubuntu:14.04
+
+WORKDIR /usr/local/capone
+
+COPY ./scripts/install-openresty ./scripts/install-openresty
+RUN ./scripts/install-openresty
+
+COPY ./scripts/install-luarocks ./scripts/install-luarocks
+RUN ./scripts/install-luarocks
+
+RUN \
+  /usr/local/openresty/luajit/bin/luarocks install luasocket && \
+  /usr/local/openresty/luajit/bin/luarocks install pgmoon
+
+RUN \
+  ln -sf /dev/stdout /var/log/nginx/access.log && \
+  ln -sf /dev/stderr /var/log/nginx/error.log
+
+COPY ./configs/nginx.conf ./configs/nginx.conf
+COPY ./scripts/router.lua ./scripts/router.lua
+
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;", "-c", "/usr/local/capone/configs/nginx.conf"]
