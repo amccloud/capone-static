@@ -21,7 +21,7 @@
     "mime-types": "^2.1.8",
     "pg": "^4.4.3",
     "raven": "^0.10.0",
-    "sequelize": "^3.15.1"
+    "sequelize": "^5.15.1"
   },
   "devDependencies": {
     "babel-cli": "^6.3.17",
