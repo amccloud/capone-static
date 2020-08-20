@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "backblaze-b2": "^0.9.8",
-    "bcrypt": "^0.8.5",
+    "bcrypt": "^5.0.0",
     "fastly": "^1.2.1",
     "invariant": "^2.2.0",
     "koa": "^1.1.2",
